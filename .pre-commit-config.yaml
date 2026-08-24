@@ -1,0 +1,36 @@
+default_install_hook_types: [pre-commit, pre-push]
+default_stages: [pre-commit]
+repos:
+  - repo: local
+    hooks:
+      - id: format-check
+        name: format-check
+        entry: uv run poe format-check
+        language: system
+        pass_filenames: false
+      - id: lint
+        name: lint
+        entry: uv run poe lint
+        language: system
+        pass_filenames: false
+      - id: typecheck
+        name: typecheck
+        entry: uv run poe typecheck
+        language: system
+        pass_filenames: false
+      - id: test
+        name: test
+        entry: uv run poe test
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+      - id: build
+        name: build
+        entry: uv run poe build
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
